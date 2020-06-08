@@ -18,6 +18,8 @@ RecyclerView 分组悬停装饰类
 
 # 使用方式
 ```java
+
+//悬停布局的高度：50dp
 recycler.addItemDecoration(new HoverItemDecoration(DensityUtil.dip2px(context,50)){
             @Override
             protected List<Integer> getHoverPosis() {
