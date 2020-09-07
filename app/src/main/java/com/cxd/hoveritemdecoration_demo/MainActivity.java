@@ -14,6 +14,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -39,7 +40,9 @@ public class MainActivity extends AppCompatActivity {
             protected List<Integer> getHoverPosis() {
                 List<Integer> posis = new ArrayList<>();
                 for (int i = 0; i < 30; i++) {
-                    posis.add(i);
+                    if(i % 5 == 0){
+                        posis.add(i);
+                    }
                 }
                 return posis;
             }
@@ -47,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected void drawHover(Canvas c, int position, Rect rect) {
                 c.drawColor(Color.parseColor("#BBFFFF"));
-                Log.i("aaa", "drawHover: "+rect.toString());
 
                 Path path = new Path();
                 path.moveTo(100,rect.centerY());
@@ -62,15 +64,15 @@ public class MainActivity extends AppCompatActivity {
                 c.drawTextOnPath("position : "+position,path,0,14 ,paint);
                 c.drawPath(path,paint);
 //
-                path = new Path();
-                path.moveTo(rect.left,rect.top + 2.5f);
-                path.rLineTo(rect.right ,0);
-                path.close();
-                paint = new Paint();
-                paint.setStyle(Paint.Style.STROKE);
-                paint.setStrokeWidth(5);
-                paint.setColor(Color.RED);
-                c.drawPath(path,paint);
+//                path = new Path();
+//                path.moveTo(rect.left,rect.top + 2.5f);
+//                path.rLineTo(rect.right ,0);
+//                path.close();
+//                paint = new Paint();
+//                paint.setStyle(Paint.Style.STROKE);
+//                paint.setStrokeWidth(5);
+//                paint.setColor(Color.RED);
+//                c.drawPath(path,paint);
             }
         });
 
@@ -82,50 +84,53 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             protected Object getItemViewOrId() {
-                RecyclerView recycler = new RecyclerView(context);
-                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(-1,-2);
-                recycler.setLayoutParams(params);
-                recycler.setNestedScrollingEnabled(false);
-                recycler.addItemDecoration(new RecyclerView.ItemDecoration() {
-                    @Override
-                    public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-                        super.getItemOffsets(outRect, view, parent, state);
-                        outRect.bottom = DensityUtil.dip2px(context,10);
-                        final int transX = (ScreenUtil.getScreenWidth(context) - DensityUtil.dip2px(context,300))/6;
-                        view.setTranslationX(transX);
-                    }
-                });
-                recycler.setLayoutManager(new GridLayoutManager(context,3){
-                    @Override
-                    public boolean canScrollVertically() {
-                        return false;
-                    }
-                });
+//                RecyclerView recycler = new RecyclerView(context);
+//                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(-1,-2);
+//                recycler.setLayoutParams(params);
+//                recycler.setNestedScrollingEnabled(false);
+//                recycler.addItemDecoration(new RecyclerView.ItemDecoration() {
+//                    @Override
+//                    public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+//                        super.getItemOffsets(outRect, view, parent, state);
+//                        outRect.bottom = DensityUtil.dip2px(context,10);
+//                        final int transX = (ScreenUtil.getScreenWidth(context) - DensityUtil.dip2px(context,300))/6;
+//                        view.setTranslationX(transX);
+//                    }
+//                });
+//                recycler.setLayoutManager(new GridLayoutManager(context,3){
+//                    @Override
+//                    public boolean canScrollVertically() {
+//                        return false;
+//                    }
+//                });
+//
+//                final QuickAdapter adapter1 = new QuickAdapter(context) {
+//                    @Override
+//                    protected Object getEmptyIdOrView() {
+//                        return null;
+//                    }
+//
+//                    @Override
+//                    protected Object getItemViewOrId() {
+//                        View v = new View(context);
+//                        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(DensityUtil.dip2px(context,100),DensityUtil.dip2px(context,100));
+//                        v.setLayoutParams(params);
+//                        v.setBackgroundColor(Color.GRAY);
+//                        return v;
+//                    }
+//
+//                    @Override
+//                    protected void onBindViewHolder(ViewHolder holder, Object o, int position) {
+//
+//                    }
+//                };
+//                recycler.setAdapter(adapter1);
+//                adapter1.doTest(new Random().nextInt(10));
 
-                final QuickAdapter adapter1 = new QuickAdapter(context) {
-                    @Override
-                    protected Object getEmptyIdOrView() {
-                        return null;
-                    }
-
-                    @Override
-                    protected Object getItemViewOrId() {
-                        View v = new View(context);
-                        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(DensityUtil.dip2px(context,100),DensityUtil.dip2px(context,100));
-                        v.setLayoutParams(params);
-                        v.setBackgroundColor(Color.GRAY);
-                        return v;
-                    }
-
-                    @Override
-                    protected void onBindViewHolder(ViewHolder holder, Object o, int position) {
-
-                    }
-                };
-                recycler.setAdapter(adapter1);
-                adapter1.doTest(new Random().nextInt(10));
-
-                return recycler;
+                View v = LayoutInflater.from(context).inflate(R.layout.item_linnear,null);
+                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(-1,DensityUtil.dip2px(context,40));
+                v.setLayoutParams(params);
+                return v;
             }
 
             @Override
@@ -135,6 +140,6 @@ public class MainActivity extends AppCompatActivity {
         };
         recycler.setAdapter(adapter);
 
-        adapter.doTest(30);
+        adapter.doTest(200);
     }
 }
